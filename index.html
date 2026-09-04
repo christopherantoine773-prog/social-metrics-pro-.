@@ -3,91 +3,317 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkGPT Social Analytics</title>
-    <!-- Feuilles de style CSS -->
-    <link rel="stylesheet" href="styles/variables.css">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/components.css">
-    <!-- Librairies externes CDN -->
+    <title>DarkGPT Social Analytics Studio</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1"></script>
+    <style>
+        :root {
+            --bg-color: #0b0e14;
+            --card-bg: rgba(22, 27, 38, 0.8);
+            --primary-neon: #00f2fe;
+            --secondary-neon: #4facfe;
+            --accent-pink: #ff007f;
+            --text-color: #ffffff;
+            --text-muted: #8a99ad;
+            --border-glow: rgba(0, 242, 254, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 1.5rem;
+            background-image: radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(255, 0, 127, 0.05) 0%, transparent 40%);
+        }
+
+        .dashboard-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Header Neon */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--primary-neon), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        /* Analyzer Bar */
+        .analyzer-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 280px;
+            background: rgba(11, 14, 20, 0.8);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
+        }
+
+        .platform-select {
+            background: rgba(11, 14, 20, 0.8);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            color: #fff;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .btn-analyze {
+            background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
+            border: none;
+            border-radius: 10px;
+            padding: 0.8rem 1.8rem;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            transition: all 0.3s;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+        }
+
+        /* KPIs Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .kpi-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-neon), var(--accent-pink));
+        }
+
+        .kpi-title {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Charts Layout */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 1.5rem;
+            min-height: 350px;
+        }
+
+        .chart-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--primary-neon);
+        }
+
+        @media (max-width: 600px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-<body class="theme-light">
-    <div class="app-container">
+<body>
+
+    <div class="dashboard-container">
         <!-- Header -->
-        <header class="dashboard-header">
-            <h1>Social Analytics Pro</h1>
-            <div class="theme-toggle">
-                <button id="theme-btn" aria-label="Toggle theme">🌓</button>
-            </div>
+        <header>
+            <h1>⚡ DARKGPT ANALYTICS STUDIO</h1>
+            <span style="color: var(--text-muted); font-size: 0.85rem;">Status: <b style="color: var(--primary-neon);">LIVE</b></span>
         </header>
 
-        <!-- Sidebar -->
-        <aside class="dashboard-sidebar">
-            <nav>
-                <ul>
-                    <li><a href="#" class="active">Tableau de bord</a></li>
-                    <li><a href="#">Engagement</a></li>
-                    <li><a href="#">Audience</a></li>
-                    <li><a href="#">Rapports</a></li>
-                </ul>
-            </nav>
-
-            <!-- Platform Selector -->
-            <div class="platform-selector">
-                <h3>Plateformes</h3>
-                <div class="platform-icons">
-                    <button data-platform="facebook" class="active">📘</button>
-                    <button data-platform="instagram">📷</button>
-                    <button data-platform="twitter">🐦</button>
-                    <button data-platform="linkedin">💼</button>
-                </div>
+        <!-- Search Bar -->
+        <div class="analyzer-card">
+            <div class="search-box">
+                <select id="platformSelect" class="platform-select">
+                    <option value="tiktok">TikTok 🎵</option>
+                    <option value="youtube">YouTube 🔴</option>
+                    <option value="instagram">Instagram 📷</option>
+                    <option value="facebook">Facebook 📘</option>
+                </select>
+                <input type="text" id="targetInput" placeholder="Entrez un nom d'utilisateur ou lien (ex: @dope__pain)...">
+                <button class="btn-analyze" onclick="runAnalysis()">ANALYSER</button>
             </div>
-        </aside>
+        </div>
 
-        <!-- Main Content -->
-        <main class="dashboard-content">
-            <!-- KPI Cards -->
-            <section class="kpi-section">
-                <div class="kpi-card">
-                    <h3>Suiveurs</h3>
-                    <p id="followers-count">0</p>
-                    <span class="kpi-change positive">+5.2%</span>
-                </div>
-            </section>
+        <!-- KPIs -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-title">Abonnés / Audience</div>
+                <div class="kpi-value" id="kpiFollowers">--</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Taux d'Engagement</div>
+                <div class="kpi-value" id="kpiEngagement">--</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Vues Moyennes / Vidéo</div>
+                <div class="kpi-value" id="kpiViews">--</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Score d'Impact</div>
+                <div class="kpi-value" id="kpiScore">--</div>
+            </div>
+        </div>
 
-            <!-- Charts Section -->
-            <section class="charts-section">
-                <div class="chart-container">
-                    <canvas id="engagement-chart"></canvas>
-                </div>
-
-                <div class="chart-container dual-chart">
-                    <canvas id="growth-chart"></canvas>
-                </div>
-
-                <div class="chart-container full-width">
-                    <canvas id="platform-comparison"></canvas>
-                </div>
-            </section>
-
-            <!-- Recent Activity -->
-            <section class="activity-section">
-                <h2>Activité récente</h2>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="dashboard-footer">
-            © 2023 DarkGPT Analytics | Données simulées
-        </footer>
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>Progression de l'Engagement</h3>
+                <canvas id="chartEngagement"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3>Répartition des Interactions</h3>
+                <canvas id="chartInteractions"></canvas>
+            </div>
+        </div>
     </div>
 
-    <!-- Scripts JavaScript -->
-    <script src="./scripts/utils.js"></script>
-    <script src="./scripts/data-fetch.js"></script>
-    <script src="./scripts/charts.js"></script>
-    <!-- Chargement en mode module pour corriger les erreurs ES6 Import/Export -->
-    <script type="module" src="./scripts/app.js"></script>
+    <script>
+        let chart1, chart2;
+
+        function runAnalysis() {
+            const input = document.getElementById('targetInput').value || '@profil';
+            const platform = document.getElementById('platformSelect').value;
+
+            // Generation de donnees simulees dynamiques
+            const followers = Math.floor(Math.random() * 800000) + 50000;
+            const engagement = (Math.random() * 8 + 2).toFixed(2);
+            const views = Math.floor(followers * (Math.random() * 0.4 + 0.1));
+            const score = (Math.random() * 20 + 80).toFixed(1);
+
+            document.getElementById('kpiFollowers').innerText = followers.toLocaleString();
+            document.getElementById('kpiEngagement').innerText = engagement + '%';
+            document.getElementById('kpiViews').innerText = views.toLocaleString();
+            document.getElementById('kpiScore').innerText = score + '/100';
+
+            updateCharts(platform);
+        }
+
+        function updateCharts(platform) {
+            const ctx1 = document.getElementById('chartEngagement').getContext('2d');
+            const ctx2 = document.getElementById('chartInteractions').getContext('2d');
+
+            if (chart1) chart1.destroy();
+            if (chart2) chart2.destroy();
+
+            chart1 = new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5'],
+                    datasets: [{
+                        label: 'Vues / Interactions',
+                        data: Array.from({length: 5}, () => Math.floor(Math.random() * 50000) + 10000),
+                        borderColor: '#00f2fe',
+                        backgroundColor: 'rgba(0, 242, 254, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { labels: { color: '#fff' } } },
+                    scales: {
+                        x: { ticks: { color: '#8a99ad' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { ticks: { color: '#8a99ad' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+
+            chart2 = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Likes', 'Partages', 'Commentaires', 'Saves'],
+                    datasets: [{
+                        data: [55, 20, 15, 10],
+                        backgroundColor: ['#00f2fe', '#ff007f', '#4facfe', '#7f00ff']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { labels: { color: '#fff' } } }
+                }
+            });
+        }
+
+        // Lancer une premiere analyse automatique au chargement
+        window.onload = runAnalysis;
+    </script>
 </body>
 </html>
