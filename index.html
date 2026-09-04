@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkGPT Social Analytics Studio</title>
+    <title>cyberdope Social Analytics Studio</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -41,7 +41,7 @@
             gap: 1.5rem;
         }
 
-        /* Header Neon */
+        /* Header Neon & Navigation */
         header {
             display: flex;
             justify-content: space-between;
@@ -52,6 +52,8 @@
             border-radius: 16px;
             box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
             backdrop-filter: blur(10px);
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         header h1 {
@@ -61,6 +63,29 @@
             -webkit-text-fill-color: transparent;
             font-weight: 800;
             letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .nav-btn {
+            background: rgba(11, 14, 20, 0.8);
+            border: 1px solid var(--border-glow);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            border-color: var(--primary-neon);
+            color: var(--primary-neon);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
         }
 
         /* Profile Banner Card */
@@ -247,9 +272,14 @@
 <body>
 
     <div class="dashboard-container" id="reportArea">
-        <!-- Header -->
+        <!-- Header avec redirection vers d'autres fichiers/pages -->
         <header>
-            <h1>⚡ DARKGPT ANALYTICS STUDIO</h1>
+            <h1>⚡ CYBERDOPE STUDIO</h1>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-btn active">Analytics</a>
+                <a href="store.html" class="nav-btn">DP Store 🛒</a>
+                <a href="tools.html" class="nav-btn">Outils AI 🤖</a>
+            </nav>
             <span style="color: var(--text-muted); font-size: 0.85rem;">Status: <b id="statusIndicator" style="color: var(--primary-neon);">LIVE</b></span>
         </header>
 
@@ -269,10 +299,10 @@
 
         <!-- Profile Widget -->
         <div class="profile-card" id="profileCard">
-            <img src="https://ui-avatars.com/api/?name=TikTok+User&background=00f2fe&color=000" alt="Avatar" class="profile-avatar" id="userAvatar">
+            <img src="" alt="Avatar" class="profile-avatar" id="userAvatar">
             <div class="profile-info">
                 <h2 id="userName">@username <span class="badge-verified">VÉRIFIÉ</span></h2>
-                <p id="userBio">Profil analysé en temps réel par DarkGPT Engine</p>
+                <p id="userBio">Profil analysé en temps réel via TikTok API</p>
             </div>
         </div>
 
@@ -296,7 +326,7 @@
             </div>
         </div>
 
-        <!-- KPIs 2ème Ligne (Nouveaux métriques) -->
+        <!-- KPIs 2ème Ligne -->
         <div class="kpi-grid">
             <div class="kpi-card">
                 <div class="kpi-title">Revenu Estimé / Post</div>
@@ -331,7 +361,6 @@
 
         async function runAnalysis() {
             const input = document.getElementById('targetInput').value.trim();
-            const platform = document.getElementById('platformSelect').value;
             const btn = document.getElementById('btnAnalyze');
             const status = document.getElementById('statusIndicator');
 
@@ -349,52 +378,42 @@
                 const response = await fetch(`${BACKEND_URL}/analyze?url=${encodeURIComponent(input)}`);
                 const data = await response.json();
 
-                let views = data.views || Math.floor(Math.random() * 800000) + 50000;
-                let followers = data.followers || Math.floor(views * 1.5);
-                let engagement = data.engagement || (Math.random() * 8 + 2).toFixed(2);
-                let score = data.score || (Math.random() * 20 + 80).toFixed(1);
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
 
-                // Mettre à jour les données de base
-                document.getElementById('kpiFollowers').innerText = Number(followers).toLocaleString();
-                document.getElementById('kpiEngagement').innerText = engagement + '%';
-                document.getElementById('kpiViews').innerText = Number(views).toLocaleString();
-                document.getElementById('kpiScore').innerText = score + '/100';
-
-                // Calculs des nouvelles métriques
-                const estimatedEarnings = Math.floor(views * 0.0025 + followers * 0.001);
-                document.getElementById('kpiEarnings').innerText = '$' + estimatedEarnings.toLocaleString();
-                document.getElementById('kpiBestTime').innerText = "18h00 - 21h00";
-                document.getElementById('kpiCPM').innerText = "$" + (Math.random() * 2 + 1.5).toFixed(2);
-
-                // Affichage du profil
-                const cleanName = input.replace('https://www.tiktok.com/', '').replace('https://tiktok.com/', '').split('?')[0];
-                document.getElementById('userName').innerText = cleanName.startsWith('@') ? cleanName : '@' + cleanName;
-                document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=00f2fe&color=000`;
+                // Affichage de l'avatar réel ou dynamique
+                const cleanName = data.username || input.replace(/https?:\/\/(www\.)?tiktok\.com\/@?/, '').split('?')[0];
+                document.getElementById('userName').innerText = '@' + cleanName.replace('@', '');
+                
+                if (data.avatar) {
+                    document.getElementById('userAvatar').src = data.avatar;
+                } else {
+                    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=00f2fe&color=000`;
+                }
                 document.getElementById('profileCard').style.display = 'flex';
+
+                // Métriques
+                const followers = data.followers;
+                const views = data.views;
+                
+                document.getElementById('kpiFollowers').innerText = typeof followers === 'number' ? followers.toLocaleString() : followers;
+                document.getElementById('kpiEngagement').innerText = data.engagement + '%';
+                document.getElementById('kpiViews').innerText = typeof views === 'number' ? views.toLocaleString() : views;
+                document.getElementById('kpiScore').innerText = data.score + '/100';
+
+                // Estimations
+                const earnings = typeof views === 'number' ? Math.floor(views * 0.0025) : 150;
+                document.getElementById('kpiEarnings').innerText = '$' + earnings.toLocaleString();
+                document.getElementById('kpiBestTime').innerText = "18h00 - 21h00";
+                document.getElementById('kpiCPM').innerText = "$2.10";
 
                 updateCharts(data.history || null);
 
             } catch (err) {
-                console.error("Erreur backend, passage en simulation:", err);
-                // Simulation dynamique de secours
-                const followers = Math.floor(Math.random() * 800000) + 50000;
-                const engagement = (Math.random() * 8 + 2).toFixed(2);
-                const views = Math.floor(followers * (Math.random() * 0.4 + 0.1));
-                const score = (Math.random() * 20 + 80).toFixed(1);
-
-                document.getElementById('kpiFollowers').innerText = followers.toLocaleString();
-                document.getElementById('kpiEngagement').innerText = engagement + '%';
-                document.getElementById('kpiViews').innerText = views.toLocaleString();
-                document.getElementById('kpiScore').innerText = score + '/100';
-                document.getElementById('kpiEarnings').innerText = '$' + Math.floor(views * 0.003).toLocaleString();
-                document.getElementById('kpiBestTime').innerText = "19h30 - 22h00";
-                document.getElementById('kpiCPM').innerText = "$2.10";
-
-                document.getElementById('userName').innerText = input.startsWith('@') ? input : '@' + input;
-                document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(input)}&background=ff007f&color=fff`;
-                document.getElementById('profileCard').style.display = 'flex';
-
-                updateCharts(null);
+                console.error("Erreur backend:", err);
+                alert("Impossible de contacter le serveur Render. Réessaie dans quelques secondes.");
             } finally {
                 btn.innerText = "ANALYSER";
                 btn.disabled = false;
@@ -410,7 +429,7 @@
             if (chart1) chart1.destroy();
             if (chart2) chart2.destroy();
 
-            const chartValues = historyData || Array.from({length: 5}, () => Math.floor(Math.random() * 50000) + 10000);
+            const chartValues = historyData || [10000, 20000, 30000, 40000, 50000];
 
             chart1 = new Chart(ctx1, {
                 type: 'line',
