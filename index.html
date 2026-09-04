@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DarkGPT Social Analytics</title>
+    <!-- Feuilles de style CSS -->
     <link rel="stylesheet" href="styles/variables.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
+    <!-- Librairies externes CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1"></script>
 </head>
@@ -52,23 +54,18 @@
                     <p id="followers-count">0</p>
                     <span class="kpi-change positive">+5.2%</span>
                 </div>
-                <!-- Autres cartes KPI (likes, shares, reach) -->
             </section>
 
             <!-- Charts Section -->
             <section class="charts-section">
-                <!-- Engagement Chart -->
                 <div class="chart-container">
                     <canvas id="engagement-chart"></canvas>
                 </div>
 
-                <!-- Growth Chart -->
                 <div class="chart-container dual-chart">
                     <canvas id="growth-chart"></canvas>
-                    <!-- Deuxième graphique en split-view -->
                 </div>
 
-                <!-- Platform Comparison -->
                 <div class="chart-container full-width">
                     <canvas id="platform-comparison"></canvas>
                 </div>
@@ -77,7 +74,6 @@
             <!-- Recent Activity -->
             <section class="activity-section">
                 <h2>Activité récente</h2>
-                <!-- Liste dynamique générée par JS -->
             </section>
         </main>
 
@@ -87,10 +83,11 @@
         </footer>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts JavaScript -->
     <script src="./scripts/utils.js"></script>
     <script src="./scripts/data-fetch.js"></script>
     <script src="./scripts/charts.js"></script>
-    <script src="./scripts/app.js"></script>
+    <!-- Chargement en mode module pour corriger les erreurs ES6 Import/Export -->
+    <script type="module" src="./scripts/app.js"></script>
 </body>
 </html>
