@@ -1,0 +1,39 @@
+/**
+ * Utility Functions Module for Social Analytics Dashboard
+ */
+
+// Format numbers into readable strings (e.g. 12500 -> "12.5K")
+export function formatNumber(num) {
+    if (num === null || num === undefined) return '0';
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1) + 'M';
+    }
+    if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
+}
+
+// Format percentages with sign (+5.2%)
+export function formatPercentage(value) {
+    const formatted = Math.abs(value).toFixed(1);
+    return value >= 0 ? `+${formatted}%` : `-${formatted}%`;
+}
+
+// Generate relative time description
+export function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - new Date(date)) / 1000);
+    
+    let interval = Math.floor(seconds / 3600);
+    if (interval >= 1) return `${interval}h ago`;
+    
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) return `${interval}m ago`;
+    
+    return 'Just now';
+}
+
+// Helper to delay executions (useful for async/mock API testing)
+export function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
