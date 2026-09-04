@@ -17,12 +17,7 @@
             --border-glow: rgba(0, 242, 254, 0.2);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
 
         body {
             background-color: var(--bg-color);
@@ -33,246 +28,66 @@
                               radial-gradient(circle at 90% 80%, rgba(255, 0, 127, 0.05) 0%, transparent 40%);
         }
 
-        .dashboard-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
+        .dashboard-container { max-width: 1300px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
 
-        /* Header Neon & Navigation */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border-glow);
-            border-radius: 16px;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
-            backdrop-filter: blur(10px);
-            flex-wrap: wrap;
-            gap: 1rem;
+            display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem;
+            background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 16px; backdrop-filter: blur(10px); flex-wrap: wrap; gap: 1rem;
         }
 
         header h1 {
-            font-size: 1.5rem;
-            background: linear-gradient(45deg, var(--primary-neon), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-size: 1.5rem; background: linear-gradient(45deg, var(--primary-neon), var(--accent-pink));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800;
         }
 
-        .nav-links {
-            display: flex;
-            gap: 0.8rem;
-        }
-
+        .nav-links { display: flex; gap: 0.8rem; }
         .nav-btn {
-            background: rgba(11, 14, 20, 0.8);
-            border: 1px solid var(--border-glow);
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: all 0.3s;
+            background: rgba(11, 14, 20, 0.8); border: 1px solid var(--border-glow); color: var(--text-color);
+            padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: all 0.3s;
         }
+        .nav-btn:hover, .nav-btn.active { border-color: var(--primary-neon); color: var(--primary-neon); box-shadow: 0 0 10px rgba(0, 242, 254, 0.3); }
 
-        .nav-btn:hover, .nav-btn.active {
-            border-color: var(--primary-neon);
-            color: var(--primary-neon);
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+        /* Animation Barre de Recherche / Analyse */
+        .progress-bar-container {
+            width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; display: none; margin-top: 1rem;
         }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--primary-neon), var(--accent-pink)); transition: width 0.3s ease; }
 
-        /* Profile Banner Card */
         .profile-card {
-            display: none;
-            align-items: center;
-            gap: 1.5rem;
-            background: var(--card-bg);
-            border: 1px solid var(--primary-neon);
-            border-radius: 16px;
-            padding: 1.2rem;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+            display: none; align-items: center; gap: 1.5rem; background: var(--card-bg);
+            border: 1px solid var(--primary-neon); border-radius: 16px; padding: 1.2rem; box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
         }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-neon); object-fit: cover; }
 
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-neon);
-            object-fit: cover;
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
-        }
+        .analyzer-card { background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 16px; padding: 1.5rem; }
+        .search-box { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .search-box input { flex: 1; min-width: 280px; background: rgba(11, 14, 20, 0.8); border: 1px solid var(--border-glow); border-radius: 10px; padding: 0.8rem 1.2rem; color: #fff; outline: none; }
+        .platform-select { background: rgba(11, 14, 20, 0.8); border: 1px solid var(--border-glow); border-radius: 10px; padding: 0.8rem 1rem; color: #fff; }
+        .btn-analyze { background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon)); border: none; border-radius: 10px; padding: 0.8rem 1.8rem; color: #000; font-weight: 700; cursor: pointer; }
+        .btn-export { background: linear-gradient(45deg, var(--accent-pink), #7f00ff); border: none; border-radius: 10px; padding: 0.8rem 1.5rem; color: #fff; font-weight: 700; cursor: pointer; }
 
-        .profile-info h2 {
-            font-size: 1.4rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+        .kpi-card { background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 16px; padding: 1.5rem; position: relative; overflow: hidden; }
+        .kpi-card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary-neon), var(--accent-pink)); }
+        .kpi-title { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .kpi-value { font-size: 2rem; font-weight: 800; color: #fff; }
 
-        .profile-info p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        /* Recommandations & Conseils */
+        .recommendations-card {
+            background: var(--card-bg); border: 1px solid var(--primary-neon); border-radius: 16px; padding: 1.5rem; display: none;
         }
+        .recommendations-card h3 { color: var(--primary-neon); margin-bottom: 1rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+        .recommendations-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+        .recommendations-list li { background: rgba(0, 242, 254, 0.05); border-left: 3px solid var(--accent-pink); padding: 0.8rem 1rem; border-radius: 4px; font-size: 0.95rem; }
 
-        .badge-verified {
-            background: var(--primary-neon);
-            color: #000;
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: bold;
-        }
-
-        /* Analyzer Bar */
-        .analyzer-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-glow);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .search-box {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .search-box input {
-            flex: 1;
-            min-width: 280px;
-            background: rgba(11, 14, 20, 0.8);
-            border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            padding: 0.8rem 1.2rem;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            border-color: var(--primary-neon);
-            box-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
-        }
-
-        .platform-select {
-            background: rgba(11, 14, 20, 0.8);
-            border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            padding: 0.8rem 1rem;
-            color: #fff;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .btn-analyze {
-            background: linear-gradient(45deg, var(--primary-neon), var(--secondary-neon));
-            border: none;
-            border-radius: 10px;
-            padding: 0.8rem 1.8rem;
-            color: #000;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-            transition: all 0.3s;
-        }
-
-        .btn-analyze:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
-        }
-
-        .btn-export {
-            background: linear-gradient(45deg, var(--accent-pink), #7f00ff);
-            border: none;
-            border-radius: 10px;
-            padding: 0.8rem 1.5rem;
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
-            transition: all 0.3s;
-        }
-
-        /* KPIs Grid */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .kpi-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-glow);
-            border-radius: 16px;
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-
-        .kpi-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-neon), var(--accent-pink));
-        }
-
-        .kpi-title {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .kpi-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #fff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Charts Layout */
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .chart-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-glow);
-            border-radius: 16px;
-            padding: 1.5rem;
-            min-height: 350px;
-        }
-
-        .chart-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            color: var(--primary-neon);
-        }
-
-        @media (max-width: 600px) {
-            .charts-grid { grid-template-columns: 1fr; }
-        }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 1.5rem; }
+        .chart-card { background: var(--card-bg); border: 1px solid var(--border-glow); border-radius: 16px; padding: 1.5rem; min-height: 350px; }
+        .chart-card h3 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary-neon); }
     </style>
 </head>
 <body>
 
     <div class="dashboard-container" id="reportArea">
-        <!-- Header avec redirection vers d'autres fichiers/pages -->
         <header>
             <h1>⚡ CYBERDOPE STUDIO</h1>
             <nav class="nav-links">
@@ -283,7 +98,6 @@
             <span style="color: var(--text-muted); font-size: 0.85rem;">Status: <b id="statusIndicator" style="color: var(--primary-neon);">LIVE</b></span>
         </header>
 
-        <!-- Search Bar -->
         <div class="analyzer-card">
             <div class="search-box">
                 <select id="platformSelect" class="platform-select">
@@ -295,18 +109,19 @@
                 <button class="btn-analyze" id="btnAnalyze" onclick="runAnalysis()">ANALYSER</button>
                 <button class="btn-export" onclick="window.print()">🖨️ REÇU / PDF</button>
             </div>
-        </div>
-
-        <!-- Profile Widget -->
-        <div class="profile-card" id="profileCard">
-            <img src="" alt="Avatar" class="profile-avatar" id="userAvatar">
-            <div class="profile-info">
-                <h2 id="userName">@username <span class="badge-verified">VÉRIFIÉ</span></h2>
-                <p id="userBio">Profil analysé en temps réel via TikTok API</p>
+            <div class="progress-bar-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
         </div>
 
-        <!-- KPIs 1ère Ligne -->
+        <div class="profile-card" id="profileCard">
+            <img src="" alt="Avatar" class="profile-avatar" id="userAvatar">
+            <div class="profile-info">
+                <h2 id="userName">@username <span style="background: var(--primary-neon); color: #000; font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; font-weight: bold;">VÉRIFIÉ</span></h2>
+                <p id="userBio">Profil extrait en temps réel</p>
+            </div>
+        </div>
+
         <div class="kpi-grid">
             <div class="kpi-card">
                 <div class="kpi-title">Abonnés / Audience</div>
@@ -326,23 +141,12 @@
             </div>
         </div>
 
-        <!-- KPIs 2ème Ligne -->
-        <div class="kpi-grid">
-            <div class="kpi-card">
-                <div class="kpi-title">Revenu Estimé / Post</div>
-                <div class="kpi-value" id="kpiEarnings" style="color: #00ff88;">--</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-title">Meilleur Créneau</div>
-                <div class="kpi-value" id="kpiBestTime" style="font-size: 1.5rem; color: #ff007f;">--</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-title">Valeur CPM Estimée</div>
-                <div class="kpi-value" id="kpiCPM">--</div>
-            </div>
+        <!-- Section de Conseils de Contenu AI -->
+        <div class="recommendations-card" id="recommendationsCard">
+            <h3>💡 STRATÉGIE D'ENGAGEMENT & STYLE DE CONTENU RECOMMANDÉ</h3>
+            <ul class="recommendations-list" id="recommendationsList"></ul>
         </div>
 
-        <!-- Charts -->
         <div class="charts-grid">
             <div class="chart-card">
                 <h3>Progression de l'Engagement</h3>
@@ -363,59 +167,70 @@
             const input = document.getElementById('targetInput').value.trim();
             const btn = document.getElementById('btnAnalyze');
             const status = document.getElementById('statusIndicator');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
 
             if (!input) {
-                alert("Veuillez saisir une URL ou un nom d'utilisateur !");
+                alert("Veuillez saisir un nom d'utilisateur TikTok !");
                 return;
             }
 
-            btn.innerText = "CHARGEMENT...";
             btn.disabled = true;
             status.innerText = "ANALYSE EN COURS...";
             status.style.color = "#ff007f";
+            progressContainer.style.display = 'block';
+            
+            // Animation de la barre de progression
+            let progress = 0;
+            progressBar.style.width = '0%';
+            const progressInterval = setInterval(() => {
+                if (progress < 90) {
+                    progress += 10;
+                    progressBar.style.width = progress + '%';
+                }
+            }, 150);
 
             try {
                 const response = await fetch(`${BACKEND_URL}/analyze?url=${encodeURIComponent(input)}`);
                 const data = await response.json();
+
+                clearInterval(progressInterval);
+                progressBar.style.width = '100%';
 
                 if (data.error) {
                     alert(data.error);
                     return;
                 }
 
-                // Affichage de l'avatar réel ou dynamique
-                const cleanName = data.username || input.replace(/https?:\/\/(www\.)?tiktok\.com\/@?/, '').split('?')[0];
-                document.getElementById('userName').innerText = '@' + cleanName.replace('@', '');
-                
-                if (data.avatar) {
-                    document.getElementById('userAvatar').src = data.avatar;
-                } else {
-                    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=00f2fe&color=000`;
-                }
+                setTimeout(() => { progressContainer.style.display = 'none'; }, 500);
+
+                // Profil
+                document.getElementById('userName').innerText = '@' + data.username;
+                document.getElementById('userAvatar').src = data.avatar;
                 document.getElementById('profileCard').style.display = 'flex';
 
-                // Métriques
-                const followers = data.followers;
-                const views = data.views;
-                
-                document.getElementById('kpiFollowers').innerText = typeof followers === 'number' ? followers.toLocaleString() : followers;
+                // Métriques chiffrées réelles
+                document.getElementById('kpiFollowers').innerText = Number(data.followers).toLocaleString();
                 document.getElementById('kpiEngagement').innerText = data.engagement + '%';
-                document.getElementById('kpiViews').innerText = typeof views === 'number' ? views.toLocaleString() : views;
+                document.getElementById('kpiViews').innerText = Number(data.views).toLocaleString();
                 document.getElementById('kpiScore').innerText = data.score + '/100';
 
-                // Estimations
-                const earnings = typeof views === 'number' ? Math.floor(views * 0.0025) : 150;
-                document.getElementById('kpiEarnings').innerText = '$' + earnings.toLocaleString();
-                document.getElementById('kpiBestTime').innerText = "18h00 - 21h00";
-                document.getElementById('kpiCPM').innerText = "$2.10";
+                // Insertion des Conseils
+                const recList = document.getElementById('recommendationsList');
+                recList.innerHTML = '';
+                data.recommendations.forEach(tip => {
+                    const li = document.createElement('li');
+                    li.innerText = tip;
+                    recList.appendChild(li);
+                });
+                document.getElementById('recommendationsCard').style.display = 'block';
 
-                updateCharts(data.history || null);
+                updateCharts(data.history);
 
             } catch (err) {
-                console.error("Erreur backend:", err);
-                alert("Impossible de contacter le serveur Render. Réessaie dans quelques secondes.");
+                clearInterval(progressInterval);
+                alert("Erreur de connexion au serveur.");
             } finally {
-                btn.innerText = "ANALYSER";
                 btn.disabled = false;
                 status.innerText = "LIVE";
                 status.style.color = "var(--primary-neon)";
@@ -429,15 +244,13 @@
             if (chart1) chart1.destroy();
             if (chart2) chart2.destroy();
 
-            const chartValues = historyData || [10000, 20000, 30000, 40000, 50000];
-
             chart1 = new Chart(ctx1, {
                 type: 'line',
                 data: {
                     labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5'],
                     datasets: [{
                         label: 'Vues / Interactions',
-                        data: chartValues,
+                        data: historyData,
                         borderColor: '#00f2fe',
                         backgroundColor: 'rgba(0, 242, 254, 0.1)',
                         fill: true,
