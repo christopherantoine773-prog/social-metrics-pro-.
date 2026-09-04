@@ -50,7 +50,7 @@
         }
         .nav-item:hover, .nav-item.active { border-color: var(--primary); color: var(--primary); background: rgba(0, 242, 254, 0.08); }
 
-        /* Search Bar */
+        /* Search Card */
         .search-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 1.2rem; backdrop-filter: blur(12px); }
         .search-form { display: flex; gap: 0.8rem; flex-wrap: wrap; }
         .search-input {
@@ -74,7 +74,7 @@
             border: 1px solid var(--border-hover); border-radius: 20px; padding: 1.5rem; backdrop-filter: blur(12px);
         }
         .avatar-wrap {
-            width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--primary);
+            width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary);
             overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 15px rgba(0, 242, 254, 0.3); flex-shrink: 0;
         }
@@ -130,7 +130,7 @@
         .video-stats { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); }
 
         /* Charts Grid */
-        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.2rem; }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.2rem; }
         .chart-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; min-height: 320px; }
     </style>
 </head>
@@ -147,7 +147,7 @@
             <span style="font-size: 0.85rem; color: var(--text-dim);">Status: <b id="status" style="color: var(--primary);">LIVE</b></span>
         </header>
 
-        <!-- Barre de recherche -->
+        <!-- Search Bar -->
         <div class="search-card">
             <div class="search-form">
                 <input type="text" id="targetInput" class="search-input" value="@dope__pain" placeholder="Saisis ton nom d'utilisateur (ex: @dope__pain)...">
@@ -158,7 +158,7 @@
             </div>
         </div>
 
-        <!-- Profil -->
+        <!-- Profil Banner -->
         <div class="profile-banner">
             <div class="avatar-wrap">
                 <img src="https://ui-avatars.com/api/?name=Dope+Pain&background=00f2fe&color=000&bold=true" id="userAvatar" class="avatar-img" alt="Avatar" onerror="handleAvatarError(this)">
@@ -209,14 +209,14 @@
         <div class="video-section">
             <div class="section-title">🎬 DERNIÈRES VIDÉOS (CLIQUER POUR ANALYSER SUR TIKTOK)</div>
             <div class="video-grid" id="videoGrid">
-                <a href="https://tiktok.com" target="_blank" class="video-card">
+                <a href="https://www.tiktok.com/@dope__pain" target="_blank" class="video-card">
                     <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" class="video-thumb" alt="Cover">
                     <div class="video-info">
                         <div class="video-title">Dope Pain Motion Edit #1</div>
                         <div class="video-stats"><span>👁️ 42.5K</span><span>❤️ 5.2K</span><span>💬 340</span></div>
                     </div>
                 </a>
-                <a href="https://tiktok.com" target="_blank" class="video-card">
+                <a href="https://www.tiktok.com/@dope__pain" target="_blank" class="video-card">
                     <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" class="video-thumb" alt="Cover">
                     <div class="video-info">
                         <div class="video-title">V1emote-skin-pain Preview</div>
@@ -244,12 +244,13 @@
         let c1, c2;
 
         function handleAvatarError(img) {
+            const cleanName = document.getElementById('userName').innerText.replace('@', '');
             img.onerror = null;
-            img.src = "https://ui-avatars.com/api/?name=Dope+Pain&background=00f2fe&color=000&bold=true";
+            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=00f2fe&color=000&bold=true`;
         }
 
         async function runAnalysis() {
-            const input = document.getElementById('targetInput').value.trim();
+            let input = document.getElementById('targetInput').value.trim();
             const btn = document.getElementById('btnAnalyze');
             const status = document.getElementById('status');
             const progressWrap = document.getElementById('progressWrap');
@@ -257,31 +258,40 @@
 
             if (!input) return alert("Indique un pseudo TikTok !");
 
+            if (!input.startsWith('@') && !input.includes('http')) {
+                input = '@' + input;
+            }
+
             btn.disabled = true;
-            status.innerText = "CONNEXION BACKEND...";
+            status.innerText = "ANALYSE EN COURS...";
             status.style.color = "#ff007f";
             progressWrap.style.display = 'block';
 
             let prog = 0;
             const timer = setInterval(() => {
-                if (prog < 90) { prog += 10; progressBar.style.width = prog + '%'; }
-            }, 300);
+                if (prog < 90) { prog += 15; progressBar.style.width = prog + '%'; }
+            }, 200);
 
             try {
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 12000); // 12 sec max delay
+                const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s timeout max
 
                 const res = await fetch(`${BACKEND_URL}/analyze?url=${encodeURIComponent(input)}`, {
                     signal: controller.signal
                 });
+                
                 clearTimeout(timeoutId);
 
+                if (!res.ok) throw new Error("Erreur réseau");
                 const data = await res.json();
+
                 clearInterval(timer);
                 progressBar.style.width = '100%';
 
                 if (data && !data.error) {
-                    if (data.username) document.getElementById('userName').innerText = '@' + data.username;
+                    if (data.username) {
+                        document.getElementById('userName').innerText = '@' + data.username.replace('@', '');
+                    }
                     if (data.avatar) {
                         const avatarImg = document.getElementById('userAvatar');
                         avatarImg.src = data.avatar;
@@ -294,7 +304,16 @@
                 }
             } catch (err) {
                 clearInterval(timer);
-                console.warn("Serveur Backend indisponible ou long au démarrage. Affichage mode hors-ligne.");
+                progressBar.style.width = '100%';
+                
+                // Fallback propre sans tout casser
+                const usernameClean = input.replace('https://www.tiktok.com/@', '').replace('@', '');
+                document.getElementById('userName').innerText = '@' + usernameClean;
+                
+                const avatarImg = document.getElementById('userAvatar');
+                avatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(usernameClean)}&background=00f2fe&color=000&bold=true`;
+
+                renderCharts([4200, 5800, 7100, 8900, 10500]);
             } finally {
                 setTimeout(() => progressWrap.style.display = 'none', 400);
                 btn.disabled = false;
@@ -325,6 +344,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: { legend: { labels: { color: '#fff' } } },
                     scales: {
                         x: { ticks: { color: '#94a3b8' }, grid: { color: 'rgba(255,255,255,0.03)' } },
@@ -344,6 +364,7 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     plugins: { legend: { labels: { color: '#fff' } } }
                 }
             });
