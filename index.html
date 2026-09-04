@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkGPT Social Analytics</title>
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1"></script>
+</head>
+<body class="theme-light">
+    <div class="app-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1>Social Analytics Pro</h1>
+            <div class="theme-toggle">
+                <button id="theme-btn" aria-label="Toggle theme">🌓</button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Tableau de bord</a></li>
+                    <li><a href="#">Engagement</a></li>
+                    <li><a href="#">Audience</a></li>
+                    <li><a href="#">Rapports</a></li>
+                </ul>
+            </nav>
+
+            <!-- Platform Selector -->
+            <div class="platform-selector">
+                <h3>Plateformes</h3>
+                <div class="platform-icons">
+                    <button data-platform="facebook" class="active">📘</button>
+                    <button data-platform="instagram">📷</button>
+                    <button data-platform="twitter">🐦</button>
+                    <button data-platform="linkedin">💼</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <!-- KPI Cards -->
+            <section class="kpi-section">
+                <div class="kpi-card">
+                    <h3>Suiveurs</h3>
+                    <p id="followers-count">0</p>
+                    <span class="kpi-change positive">+5.2%</span>
+                </div>
+                <!-- Autres cartes KPI (likes, shares, reach) -->
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <!-- Engagement Chart -->
+                <div class="chart-container">
+                    <canvas id="engagement-chart"></canvas>
+                </div>
+
+                <!-- Growth Chart -->
+                <div class="chart-container dual-chart">
+                    <canvas id="growth-chart"></canvas>
+                    <!-- Deuxième graphique en split-view -->
+                </div>
+
+                <!-- Platform Comparison -->
+                <div class="chart-container full-width">
+                    <canvas id="platform-comparison"></canvas>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="activity-section">
+                <h2>Activité récente</h2>
+                <!-- Liste dynamique générée par JS -->
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            © 2023 DarkGPT Analytics | Données simulées
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./scripts/utils.js"></script>
+    <script src="./scripts/data-fetch.js"></script>
+    <script src="./scripts/charts.js"></script>
+    <script src="./scripts/app.js"></script>
+</body>
+</html>
