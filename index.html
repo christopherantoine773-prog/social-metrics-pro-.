@@ -3,570 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBERDOPE STUDIO - Multi-Platform Pro Analytics & AI Suite</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>CYBERDOPE STUDIO PRO v2.5</title>
     <style>
         :root {
-            --bg-dark: #05070c;
-            --card-bg: rgba(15, 21, 36, 0.88);
-            --primary: #00f2fe;
-            --accent: #ff007f;
-            --green: #00e676;
-            --yellow: #ffd600;
-            --red: #ff1744;
-            --text: #ffffff;
-            --text-dim: #8a99ad;
-            --border: rgba(0, 242, 254, 0.18);
-            --border-hover: rgba(0, 242, 254, 0.5);
-            --glow: rgba(0, 242, 254, 0.25);
+            --bg-color: #0b0f19;
+            --card-bg: #121826;
+            --card-border: #1e293b;
+            --accent-cyan: #00f2fe;
+            --accent-magenta: #ff007f;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text);
-            min-height: 100vh;
-            padding: 1.5rem;
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(0, 242, 254, 0.09) 0%, transparent 45%),
-                radial-gradient(circle at 90% 90%, rgba(255, 0, 127, 0.09) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(127, 0, 255, 0.05) 0%, transparent 60%);
-            background-attachment: fixed;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
         }
 
-        .container { max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem; }
-
-        /* Header UI */
-        header {
-            display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 2rem;
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
-            backdrop-filter: blur(16px); flex-wrap: wrap; gap: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        .logo { 
-            font-size: 1.5rem; font-weight: 800; 
-            background: linear-gradient(135deg, var(--primary), #7f00ff, var(--accent)); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 0.5px;
-            display: flex; align-items: center; gap: 0.6rem;
+        /* En-tête */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
         }
 
-        .nav-group { display: flex; gap: 0.6rem; }
-        .nav-item {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: var(--text);
-            padding: 0.6rem 1.2rem; border-radius: 14px; text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: all 0.3s;
+        .logo {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .nav-item:hover, .nav-item.active { border-color: var(--primary); color: var(--primary); background: rgba(0, 242, 254, 0.12); box-shadow: 0 0 12px var(--glow); }
 
-        /* Search Card */
-        .search-card { 
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 1.4rem; 
-            backdrop-filter: blur(16px); box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .logo span {
+            color: var(--accent-magenta);
+            font-size: 0.75rem;
+            background: rgba(255, 0, 127, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--accent-magenta);
         }
-        .search-form { display: flex; gap: 0.8rem; flex-wrap: wrap; position: relative; }
-        .input-wrapper { flex: 1; min-width: 280px; position: relative; display: flex; align-items: center; }
-        .search-input {
-            width: 100%; background: rgba(8, 12, 22, 0.9); border: 1px solid var(--border);
-            border-radius: 16px; padding: 0.95rem 1.2rem 0.95rem 3.2rem; color: #fff; font-size: 0.95rem; outline: none; transition: 0.3s;
-        }
-        .search-input:focus { border-color: var(--primary); box-shadow: 0 0 20px var(--glow); }
-        .platform-icon-input { position: absolute; left: 1rem; width: 22px; height: 22px; fill: var(--primary); transition: 0.3s; }
 
-        .btn-main {
-            background: linear-gradient(135deg, var(--primary), #00a8ff); border: none; border-radius: 16px;
-            padding: 0.95rem 2rem; color: #000; font-weight: 800; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; gap: 0.6rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;
+        /* Barre de recherche */
+        .search-box {
+            display: flex;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
         }
-        .btn-main:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(0, 242, 254, 0.5); }
 
-        /* Progress Bar */
-        .progress-bar-wrap { width: 100%; height: 5px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; display: none; margin-top: 1.2rem; }
-        .progress-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.2s ease; }
-
-        /* Profile Banner */
-        .profile-banner {
-            display: flex; align-items: center; justify-content: space-between; background: var(--card-bg);
-            border: 1px solid var(--border-hover); border-radius: 24px; padding: 1.8rem; backdrop-filter: blur(16px);
-            flex-wrap: wrap; gap: 1.5rem; position: relative; overflow: hidden;
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            outline: none;
         }
-        .profile-banner::after {
-            content: ''; position: absolute; right: -50px; bottom: -50px; width: 180px; height: 180px;
-            background: var(--primary); opacity: 0.05; filter: blur(50px); border-radius: 50%;
-        }
-        .profile-left { display: flex; align-items: center; gap: 1.5rem; }
-        .avatar-wrap {
-            width: 90px; height: 90px; border-radius: 50%; border: 3px solid var(--primary);
-            overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.35); flex-shrink: 0; position: relative;
-        }
-        .avatar-img { width: 100%; height: 100%; object-fit: cover; }
-        .platform-badge {
-            position: absolute; bottom: 0; right: 0; background: var(--bg-dark); border: 1px solid var(--border);
-            border-radius: 50%; padding: 4px; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px;
-        }
-        .platform-badge svg { width: 16px; height: 16px; }
 
-        .profile-details h2 { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 0.6rem; }
-        .verified-check { color: var(--primary); font-size: 1.1rem; }
-
-        /* Monetization Estimator Box */
-        .monetization-box {
-            background: rgba(0, 230, 118, 0.08); border: 1px solid rgba(0, 230, 118, 0.3); border-radius: 18px;
-            padding: 1rem 1.4rem; text-align: right; min-width: 220px;
+        .search-box button {
+            background: var(--accent-cyan);
+            color: #000;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
         }
-        .monetization-title { font-size: 0.75rem; color: var(--green); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .monetization-amount { font-size: 1.6rem; font-weight: 800; color: #fff; margin-top: 0.2rem; }
 
-        /* KPI Cards Grid */
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; }
-        .kpi-box {
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 1.4rem;
-            position: relative; overflow: hidden; backdrop-filter: blur(16px); transition: 0.3s;
+        .search-box button:hover {
+            opacity: 0.9;
         }
-        .kpi-box:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0, 242, 254, 0.15); }
-        .kpi-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
-        .kpi-label { color: var(--text-dim); font-size: 0.8rem; font-weight: 600; margin-bottom: 0.4rem; }
-        .kpi-number { font-size: 1.7rem; font-weight: 800; color: #fff; }
-        .txt-green { color: var(--green) !important; }
-        .txt-red { color: var(--red) !important; }
 
-        /* Layout Two Columns */
-        .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-        @media (max-width: 900px) { .grid-2col { grid-template-columns: 1fr; } }
-
-        /* Diagnostic & AI Hooks Boxes */
-        .alert-box {
-            background: rgba(255, 23, 68, 0.08); border: 1px solid var(--red); border-radius: 22px; padding: 1.5rem;
+        /* Carte Profil */
+        .profile-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
-        .alert-title { color: var(--red); font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-        .alert-desc { color: #fff; font-size: 0.9rem; margin-top: 0.6rem; line-height: 1.5; }
 
-        .ai-hooks-box {
-            background: rgba(127, 0, 255, 0.08); border: 1px solid rgba(127, 0, 255, 0.4); border-radius: 22px; padding: 1.5rem;
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-        .ai-hooks-title { color: #b388ff; font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem; }
 
-        .comm-box {
-            background: rgba(0, 242, 254, 0.05); border: 1px solid var(--primary); border-radius: 22px; padding: 1.5rem;
+        .avatar-container {
+            position: relative;
+            width: 64px;
+            height: 64px;
         }
-        .comm-title { color: var(--primary); font-weight: 700; font-size: 1rem; }
-        .comm-list, .recom-list, .hooks-list { list-style: none; margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.60rem; }
-        .comm-list li, .recom-list li, .hooks-list li {
-            background: rgba(255, 255, 255, 0.03); padding: 0.85rem 1.1rem; border-radius: 12px; font-size: 0.88rem; line-height: 1.4;
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-cyan);
         }
-        .comm-list li { border-left: 3px solid var(--primary); }
-        .recom-list li { border-left: 3px solid var(--accent); background: rgba(255, 0, 127, 0.05); }
-        .hooks-list li { border-left: 3px solid #b388ff; background: rgba(127, 0, 255, 0.05); }
 
-        .recom-box { background: var(--card-bg); border: 1px solid var(--accent); border-radius: 22px; padding: 1.5rem; }
-
-        /* Video Showcase Grid */
-        .video-section { display: flex; flex-direction: column; gap: 1rem; }
-        .section-title { font-size: 1.15rem; color: var(--primary); font-weight: 800; display: flex; align-items: center; gap: 0.6rem; }
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
-        .video-card {
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
-            transition: all 0.3s; cursor: pointer; text-decoration: none; color: inherit; display: flex; flex-direction: column;
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
-        .video-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 242, 254, 0.25); }
-        .video-thumb { width: 100%; height: 180px; object-fit: cover; background: #111; }
-        .video-info { padding: 1.1rem; display: flex; flex-direction: column; gap: 0.6rem; }
-        .video-title { font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .video-stats { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text-dim); }
 
-        /* Charts Grid */
-        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.4rem; }
-        .chart-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 22px; padding: 1.5rem; min-height: 330px; }
+        /* NOM DU PROFIL ET BADGE VERIFIE */
+        .username-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .username {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        /* Style spécifique de la balise / badge */
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            background-color: var(--accent-cyan);
+            color: #000;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 900;
+            line-height: 1;
+            box-shadow: 0 0 8px rgba(0, 242, 254, 0.5);
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Estimation */
+        .earnings-box {
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px dashed var(--accent-cyan);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .earnings-title {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .earnings-amount {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            margin: 4px 0;
+        }
+
+        .earnings-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Grille de statistiques */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .stat-value.green { color: #10b981; }
+        .stat-value.red { color: #ef4444; }
+
+        /* Bloc Diagnostic */
+        .diagnostic-card {
+            background: rgba(255, 0, 127, 0.05);
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .diagnostic-title {
+            color: var(--accent-magenta);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .diagnostic-text {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Top Navigation -->
-        <header>
-            <div class="logo">⚡ CYBERDOPE STUDIO <span style="font-size:0.7rem; padding: 2px 8px; border-radius: 8px; background: rgba(0, 242, 254, 0.15); color: var(--primary); border: 1px solid var(--border);">PRO v2.5</span></div>
-            <nav class="nav-group">
-                <a href="index.html" class="nav-item active">Analytics 📊</a>
-                <a href="store.html" class="nav-item">DP Store 🛒</a>
-                <a href="tools.html" class="nav-item">Outils AI 🤖</a>
-            </nav>
-            <span style="font-size: 0.85rem; color: var(--text-dim);">Status: <b id="status" style="color: var(--primary);">SYSTEM READY</b></span>
-        </header>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">⚡ CYBERDOPE STUDIO <span>PRO v2.5</span></div>
+    </div>
 
-        <!-- Search & Platform Detector -->
-        <div class="search-card">
-            <div class="search-form">
-                <div class="input-wrapper">
-                    <span id="platformIcon" class="platform-icon-input">
-                        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2-1.74 2.89 2.89 0 0 1 2.31-2.83V7.65a6.34 6.34 0 0 0-5 6.13 6.35 6.35 0 0 0 10.7 4.54 6.27 6.27 0 0 0 1.64-4.32V8.81a8.3 8.3 0 0 0 4.77 1.48v-3.6a4.83 4.83 0 0 1-2-0.00z"/></svg>
-                    </span>
-                    <input type="text" id="targetInput" class="search-input" value="@dope__pain" placeholder="Entre un pseudo ou lien (TikTok, YouTube, Instagram, GitHub, X)..." oninput="detectPlatform(this.value)">
+    <!-- Barre de recherche -->
+    <div class="search-box">
+        <input type="text" id="urlInput" value="https://www.youtube.com/@Dope__pain" placeholder="Entrez une URL YouTube/TikTok...">
+        <button onclick="runAnalysis()">LANCER L'ANALYSE PRO</button>
+    </div>
+
+    <!-- Carte Profil -->
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="avatar-container">
+                <img id="userAvatar" class="avatar" src="https://ui-avatars.com/api/?name=DP&background=00f2fe&color=000" alt="Avatar">
+            </div>
+            <div class="profile-info">
+                <div class="username-wrapper">
+                    <span id="userName" class="username">@Dope__pain</span>
+                    <!-- LA BALISE VERIFIEE PAR DEFAUT VISIBLE -->
+                    <span id="verifiedBadge" class="verified-badge" title="Compte Vérifié">✓</span>
                 </div>
-                <button class="btn-main" id="btnAnalyze" onclick="runAnalysis()">
-                    <span>Lancer L'Analyse Pro</span>
-                </button>
-            </div>
-            <div class="progress-bar-wrap" id="progressWrap">
-                <div class="progress-bar-fill" id="progressBar"></div>
+                <div class="subtitle">Créateur & Éditeur Digital • TikTok & YouTube AI Motion</div>
             </div>
         </div>
 
-        <!-- Profile Banner -->
-        <div class="profile-banner">
-            <div class="profile-left">
-                <div class="avatar-wrap">
-                    <img src="https://ui-avatars.com/api/?name=Dope+Pain&background=00f2fe&color=000&bold=true" id="userAvatar" class="avatar-img" alt="Avatar" onerror="handleAvatarError(this)">
-                    <div class="platform-badge" id="badgeContainer"></div>
-                </div>
-                <div class="profile-details">
-                    <h2 id="userName">@dope__pain <span class="verified-check" title="Vérifié">✓</span></h2>
-                    <p style="color: var(--text-dim); font-size: 0.9rem;" id="profileSubText">Créateur & Éditeur Digital • TikTok & YouTube AI Motion</p>
-                </div>
-            </div>
-
-            <div class="monetization-box">
-                <div class="monetization-title">💰 Valeur Estimée / Post</div>
-                <div class="monetization-amount" id="estEarnings">$180 - $420</div>
-                <div style="font-size: 0.75rem; color: var(--text-dim);">Basé sur l'engagement actuel</div>
-            </div>
-        </div>
-
-        <!-- KPIs Grid -->
-        <div class="kpi-grid">
-            <div class="kpi-box"><div class="kpi-label">Abonnés Totaux</div><div class="kpi-number" id="kpiFollowers">--</div></div>
-            <div class="kpi-box"><div class="kpi-label">Abonnés Gagnés (30j)</div><div class="kpi-number txt-green" id="kpiGained">--</div></div>
-            <div class="kpi-box"><div class="kpi-label">Abonnés Perdus (30j)</div><div class="kpi-number txt-red" id="kpiLost">--</div></div>
-            <div class="kpi-box"><div class="kpi-label">Vues de la Semaine</div><div class="kpi-number" id="kpiWeeklyViews">--</div></div>
-            <div class="kpi-box"><div class="kpi-label">Vues du Mois</div><div class="kpi-number" id="kpiMonthlyViews">--</div></div>
-            <div class="kpi-box"><div class="kpi-label">Taux d'Engagement</div><div class="kpi-number" id="kpiEngagement">--</div></div>
-            <div class="kpi-box"><div class="kpi-label">Score d'Impact IA</div><div class="kpi-number" id="kpiScore">--</div></div>
-        </div>
-
-        <!-- 2 Column Diagnostics & AI Ideas -->
-        <div class="grid-2col">
-            <div class="alert-box">
-                <div class="alert-title">🚨 DIAGNOSTIC RÉTENTION & PERFORMANCES</div>
-                <div class="alert-desc" id="alertDesc">Analyse du Hook : 68% des spectateurs restent après les 2 premières secondes (+8% par rapport au mois dernier). Augmente le contraste sonore pour capter 15% d'audience supplémentaire.</div>
-            </div>
-
-            <div class="ai-hooks-box">
-                <div class="ai-hooks-title">🤖 IA HOOKS & SCRIPTS RECOMMANDÉS</div>
-                <ul class="hooks-list" id="hooksList">
-                    <li><b>Hook Visuel #1 :</b> "Stop ! Ne fais plus tes édits Motion AI sans utiliser cette astuce cachée..."</li>
-                    <li><b>Hook Storytelling #2 :</b> "Comment j'ai créé cet effet en 3 minutes chrono sur mon téléphone ?"</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Community & Strategies -->
-        <div class="grid-2col">
-            <div class="comm-box">
-                <div class="comm-title">💬 IDEES D'INTERACTION COMMUNAUTÉ</div>
-                <ul class="comm-list" id="commList">
-                    <li>"Lequel de ces 2 styles d'édits préfères-tu pour le prochain projet ?"</li>
-                    <li>"Veux-tu le fichier preset gratuit sur mon DP Store ?"</li>
-                    <li>"Pose tes questions en commentaire, je réponds dans la prochaine vidéo !"</li>
-                </ul>
-            </div>
-
-            <div class="recom-box">
-                <div style="color: var(--accent); font-weight: 700;">💡 STRATÉGIE D'ALGORITHME OPTIMISÉE</div>
-                <ul class="recom-list" id="recomList">
-                    <li>Poste préférentiellement entre <b>18h30 et 21h00</b> pour atteindre le pic d'audience actifs.</li>
-                    <li>Ajoute au moins 2 mots-clés stratégiques dans la description pour le SEO algorithmique.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Videos Section -->
-        <div class="video-section">
-            <div class="section-title">🎬 DERNIÈRES PUBLICATIONS / PROJETS ANALYSÉS</div>
-            <div class="video-grid" id="videoGrid">
-                <a href="https://www.tiktok.com/@dope__pain" target="_blank" class="video-card">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" class="video-thumb" alt="Cover">
-                    <div class="video-info">
-                        <div class="video-title">Dope Pain Motion Edit #1</div>
-                        <div class="video-stats"><span>👁️ 52.1K</span><span>❤️ 6.4K</span><span>💬 410</span></div>
-                    </div>
-                </a>
-                <a href="https://www.tiktok.com/@dope__pain" target="_blank" class="video-card">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" class="video-thumb" alt="Cover">
-                    <div class="video-info">
-                        <div class="video-title">V1emote-skin-pain Showcase</div>
-                        <div class="video-stats"><span>👁️ 34.8K</span><span>❤️ 4.1K</span><span>💬 280</span></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <!-- 3 Charts Grid -->
-        <div class="charts-grid">
-            <div class="chart-card">
-                <h3 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 1rem;">Progression Vues & Portée</h3>
-                <canvas id="chart1"></canvas>
-            </div>
-            <div class="chart-card">
-                <h3 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 1rem;">Répartition des Interactions</h3>
-                <canvas id="chart2"></canvas>
-            </div>
-            <div class="chart-card">
-                <h3 style="color: var(--primary); font-size: 0.95rem; margin-bottom: 1rem;">Radar de Performance Global</h3>
-                <canvas id="chart3"></canvas>
-            </div>
+        <div class="earnings-box">
+            <div class="earnings-title">💰 VALEUR ESTIMÉE / POST</div>
+            <div id="earningsVal" class="earnings-amount">$216 - $566</div>
+            <div class="earnings-sub">Basé sur l'engagement actuel</div>
         </div>
     </div>
 
-    <script>
-        const BACKEND_URL = "https://social-backend-2gt5.onrender.com";
-        let c1, c2, c3;
+    <!-- Grille de Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-label">Abonnés Totaux</span>
+            <span id="totalSubs" class="stat-value">20,800</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Abonnés Gagnés (30j)</span>
+            <span id="gainedSubs" class="stat-value green">+1,248</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Abonnés Perdus (30j)</span>
+            <span id="lostSubs" class="stat-value red">-104</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Vues de la Semaine</span>
+            <span id="weeklyViews" class="stat-value">47.8K</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Vues du Mois</span>
+            <span id="monthlyViews" class="stat-value">197.6K</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-label">Taux d'Engagement</span>
+            <span id="engagementRate" class="stat-value">8.5%</span>
+        </div>
+    </div>
 
-        const SVG_LOGOS = {
-            tiktok: `<svg viewBox="0 0 24 24" fill="#00f2fe"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2-1.74 2.89 2.89 0 0 1 2.31-2.83V7.65a6.34 6.34 0 0 0-5 6.13 6.35 6.35 0 0 0 10.7 4.54 6.27 6.27 0 0 0 1.64-4.32V8.81a8.3 8.3 0 0 0 4.77 1.48v-3.6a4.83 4.83 0 0 1-2-0.00z"/></svg>`,
-            youtube: `<svg viewBox="0 0 24 24" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
-            instagram: `<svg viewBox="0 0 24 24" fill="#ff007f"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
-            github: `<svg viewBox="0 0 24 24" fill="#ffffff"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>`,
-            x: `<svg viewBox="0 0 24 24" fill="#ffffff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`
-        };
+    <!-- Diagnostic -->
+    <div class="diagnostic-card">
+        <div class="diagnostic-title">🚨 DIAGNOSTIC RÉTENTION & PERFORMANCES</div>
+        <div class="diagnostic-text">
+            Analyse du Hook : 68% des spectateurs restent après les 2 premières secondes (+8% par rapport au mois dernier). Augmente le contraste sonore pour capter 15% d'audience supplémentaire.
+        </div>
+    </div>
+</div>
 
-        function getCurrentPlatform(val) {
-            if (val.includes('youtube.com') || val.includes('youtu.be')) return 'youtube';
-            if (val.includes('instagram.com')) return 'instagram';
-            if (val.includes('github.com')) return 'github';
-            if (val.includes('x.com') || val.includes('twitter.com')) return 'x';
-            return 'tiktok';
-        }
+<script>
+    // URL de ton serveur Express sur Koyeb/Render ou local
+    const API_BASE_URL = "http://localhost:3000"; 
 
-        function detectPlatform(val) {
-            const iconWrap = document.getElementById('platformIcon');
-            const badgeContainer = document.getElementById('badgeContainer');
-            const p = getCurrentPlatform(val);
+    async function runAnalysis() {
+        const inputUrl = document.getElementById('urlInput').value.trim();
+        if (!inputUrl) return;
 
-            iconWrap.innerHTML = SVG_LOGOS[p];
-            badgeContainer.innerHTML = SVG_LOGOS[p];
-        }
+        try {
+            const res = await fetch(`${API_BASE_URL}/analyze?url=${encodeURIComponent(inputUrl)}`);
+            const data = await res.json();
 
-        function handleAvatarError(img) {
-            const name = document.getElementById('userName').innerText.replace('@', '').trim();
-            img.onerror = null;
-            img.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=00f2fe&color=000&bold=true`;
-        }
-
-        // Module de recherche en temps réel de Vrais Followers (Live Fetcher)
-        async function fetchRealStats(input) {
-            const platform = getCurrentPlatform(input);
-            let cleanUsername = input.replace(/https?:\/\/(www\.)?/, '').split('/')[1] || input;
-            cleanUsername = cleanUsername.replace('@', '').split('?')[0].trim();
-
-            let realData = {
-                username: cleanUsername,
-                followers: 0,
-                avatar: null,
-                engagement: '8.5',
-                score: '85',
-                history: []
-            };
-
-            try {
-                // 1. Backend Perso
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 3500);
-
-                const res = await fetch(`${BACKEND_URL}/analyze?url=${encodeURIComponent(input)}`, { signal: controller.signal });
-                clearTimeout(timeoutId);
-
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.followers) return data;
+            if (data && data.status === "success") {
+                // Mise à jour de l'avatar et du nom
+                document.getElementById('userAvatar').src = data.avatar;
+                document.getElementById('userName').textContent = `@${data.username}`;
+                
+                // GARANTIR QUE LA BALISE EST VISIBLE
+                const badge = document.getElementById('verifiedBadge');
+                if (badge) {
+                    badge.style.display = 'inline-flex';
                 }
-            } catch (e) {
-                console.log("Backend offline, basculement vers APIs publiques...");
+
+                // Statistiques
+                document.getElementById('totalSubs').textContent = Number(data.followers).toLocaleString();
+                document.getElementById('gainedSubs').textContent = data.stats.gainedSubscribers;
+                document.getElementById('lostSubs').textContent = data.stats.lostSubscribers;
+                document.getElementById('weeklyViews').textContent = data.stats.weeklyViews;
+                document.getElementById('monthlyViews').textContent = data.stats.monthlyViews;
+                document.getElementById('engagementRate').textContent = data.engagement;
+                document.getElementById('earningsVal').textContent = data.estimatedEarnings;
             }
-
-            // 2. Apis Publiques Multi-Plateformes
-            if (platform === 'tiktok') {
-                try {
-                    const tokRes = await fetch(`https://tokcount.com/api/user/info/${encodeURIComponent(cleanUsername)}`);
-                    if (tokRes.ok) {
-                        const tokData = await tokRes.json();
-                        if (tokData && tokData.authorData) {
-                            realData.followers = tokData.authorData.followerCount;
-                            realData.avatar = tokData.authorData.avatarLarger || tokData.authorData.avatarThumb;
-                        }
-                    }
-                } catch(e) {}
-            } else if (platform === 'github') {
-                try {
-                    const ghRes = await fetch(`https://api.github.com/users/${encodeURIComponent(cleanUsername)}`);
-                    if (ghRes.ok) {
-                        const ghData = await ghRes.json();
-                        realData.followers = ghData.followers;
-                        realData.avatar = ghData.avatar_url;
-                        realData.username = ghData.login;
-                    }
-                } catch(e) {}
-            }
-
-            return realData;
+        } catch (err) {
+            console.error("Erreur d'analyse :", err);
         }
-
-        async function runAnalysis() {
-            let input = document.getElementById('targetInput').value.trim();
-            const btn = document.getElementById('btnAnalyze');
-            const status = document.getElementById('status');
-            const progressWrap = document.getElementById('progressWrap');
-            const progressBar = document.getElementById('progressBar');
-
-            if (!input) return alert("Indique un pseudo ou lien !");
-
-            btn.disabled = true;
-            status.innerText = "ANALYSE EN COURS...";
-            status.style.color = "#ff007f";
-            progressWrap.style.display = 'block';
-
-            let prog = 0;
-            const timer = setInterval(() => {
-                if (prog < 90) { prog += 15; progressBar.style.width = prog + '%'; }
-            }, 120);
-
-            try {
-                const data = await fetchRealStats(input);
-
-                clearInterval(timer);
-                progressBar.style.width = '100%';
-
-                const cleanName = data.username || input.replace('@', '');
-                document.getElementById('userName').innerHTML = '@' + cleanName + ' <span class="verified-check">✓</span>';
-
-                if (data.avatar) {
-                    document.getElementById('userAvatar').src = data.avatar;
-                } else {
-                    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=00f2fe&color=000&bold=true`;
-                }
-
-                // Calculs dynamiques basés sur les vrais followers
-                let count = data.followers || 20800;
-                
-                document.getElementById('kpiFollowers').innerText = Number(count).toLocaleString();
-                
-                let gained = Math.round(count * 0.06);
-                let lost = Math.round(count * 0.005);
-                let weekly = Math.round(count * 2.3);
-                let monthly = Math.round(count * 9.5);
-                
-                document.getElementById('kpiGained').innerText = '+' + gained.toLocaleString();
-                document.getElementById('kpiLost').innerText = '-' + lost.toLocaleString();
-                document.getElementById('kpiWeeklyViews').innerText = (weekly > 1000 ? (weekly/1000).toFixed(1) + 'K' : weekly);
-                document.getElementById('kpiMonthlyViews').innerText = (monthly > 1000 ? (monthly/1000).toFixed(1) + 'K' : monthly);
-                
-                let rate = data.engagement || (7.5 + (count % 30)/10).toFixed(2);
-                document.getElementById('kpiEngagement').innerText = rate + '%';
-                
-                let score = data.score || (78 + (count % 20)).toFixed(1);
-                document.getElementById('kpiScore').innerText = score + '/100';
-
-                // Valuation financière estimée
-                let minE = Math.round(count * 0.008 + 50);
-                let maxE = Math.round(count * 0.02 + 150);
-                document.getElementById('estEarnings').innerText = `$${minE} - $${maxE}`;
-
-                // Graphiques dynamiques
-                let baseH = Math.round(count * 0.2);
-                let history = data.history && data.history.length ? data.history : [
-                    Math.round(baseH * 0.4), Math.round(baseH * 0.65), Math.round(baseH * 0.85), Math.round(baseH * 1.1), Math.round(baseH * 1.4)
-                ];
-
-                renderCharts(history);
-
-            } catch (err) {
-                console.error(err);
-                clearInterval(timer);
-                progressBar.style.width = '100%';
-            } finally {
-                setTimeout(() => progressWrap.style.display = 'none', 400);
-                btn.disabled = false;
-                status.innerText = "LIVE SYSTEM";
-                status.style.color = "var(--primary)";
-            }
-        }
-
-        function renderCharts(history = [4200, 6800, 9500, 12800, 16400]) {
-            const ctx1 = document.getElementById('chart1').getContext('2d');
-            const ctx2 = document.getElementById('chart2').getContext('2d');
-            const ctx3 = document.getElementById('chart3').getContext('2d');
-
-            if (c1) c1.destroy();
-            if (c2) c2.destroy();
-            if (c3) c3.destroy();
-
-            c1 = new Chart(ctx1, {
-                type: 'line',
-                data: {
-                    labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4', 'Sem 5'],
-                    datasets: [{
-                        label: 'Impressions & Portée',
-                        data: history,
-                        borderColor: '#00f2fe',
-                        backgroundColor: 'rgba(0, 242, 254, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#fff' } } },
-                    scales: {
-                        x: { ticks: { color: '#8a99ad' }, grid: { color: 'rgba(255,255,255,0.03)' } },
-                        y: { ticks: { color: '#8a99ad' }, grid: { color: 'rgba(255,255,255,0.03)' } }
-                    }
-                }
-            });
-
-            c2 = new Chart(ctx2, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Likes', 'Partages', 'Commentaires', 'Saves'],
-                    datasets: [{
-                        data: [52, 22, 16, 10],
-                        backgroundColor: ['#00f2fe', '#ff007f', '#7f00ff', '#ffd600']
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#fff' } } }
-                }
-            });
-
-            c3 = new Chart(ctx3, {
-                type: 'radar',
-                data: {
-                    labels: ['Viralité', 'Rétention', 'Régularité', 'SEO', 'Fidélité'],
-                    datasets: [{
-                        label: 'Score Cyberdope AI',
-                        data: [85, 78, 92, 70, 88],
-                        borderColor: '#ff007f',
-                        backgroundColor: 'rgba(255, 0, 127, 0.2)',
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#fff' } } },
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(255,255,255,0.1)' },
-                            grid: { color: 'rgba(255,255,255,0.1)' },
-                            pointLabels: { color: '#8a99ad' },
-                            ticks: { display: false }
-                        }
-                    }
-                }
-            });
-        }
-
-        window.onload = () => {
-            detectPlatform('@dope__pain');
-            runAnalysis();
-        };
-    </script>
+    }
+</script>
 </body>
 </html>
