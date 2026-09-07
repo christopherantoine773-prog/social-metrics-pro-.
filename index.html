@@ -284,16 +284,16 @@
 
         <!-- Videos Section -->
         <div class="video-section">
-            <div class="section-title">🎬 DERNIÈRES PUBLICATOINS / PROJETS ANALYSÉS</div>
+            <div class="section-title">🎬 DERNIÈRES PUBLICATIONS / PROJETS ANALYSÉS</div>
             <div class="video-grid" id="videoGrid">
-                <a href="https://www.tiktok.com/@dope__pain" target="_blank" class="video-card">
+                <a href="https://www.tiktok.com/@dope__pain" target="_blank" rel="noopener" class="video-card">
                     <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80" class="video-thumb" alt="Cover">
                     <div class="video-info">
                         <div class="video-title">Dope Pain Motion Edit #1</div>
                         <div class="video-stats"><span>👁️ 52.1K</span><span>❤️ 6.4K</span><span>💬 410</span></div>
                     </div>
                 </a>
-                <a href="https://www.tiktok.com/@dope__pain" target="_blank" class="video-card">
+                <a href="https://www.tiktok.com/@dope__pain" target="_blank" rel="noopener" class="video-card">
                     <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" class="video-thumb" alt="Cover">
                     <div class="video-info">
                         <div class="video-title">V1emote-skin-pain Showcase</div>
@@ -322,9 +322,8 @@
 
     <script>
         const BACKEND_URL = "https://social-backend-2gt5.onrender.com";
-        let c1, c2, c3;
+        let c1 = null, c2 = null, c3 = null;
 
-        // SVGs Logos Social Media
         const SVG_LOGOS = {
             tiktok: `<svg viewBox="0 0 24 24" fill="#00f2fe"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 1 1-5.2-1.74 2.89 2.89 0 0 1 2.31-2.83V7.65a6.34 6.34 0 0 0-5 6.13 6.35 6.35 0 0 0 10.7 4.54 6.27 6.27 0 0 0 1.64-4.32V8.81a8.3 8.3 0 0 0 4.77 1.48v-3.6a4.83 4.83 0 0 1-2-0.00z"/></svg>`,
             youtube: `<svg viewBox="0 0 24 24" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
@@ -360,7 +359,7 @@
             const progressWrap = document.getElementById('progressWrap');
             const progressBar = document.getElementById('progressBar');
 
-            if (!input) return alert("Indique un pseudo ou lien !");
+            if (!input) return alert("Indique un pseudo ou un lien !");
 
             btn.disabled = true;
             status.innerText = "ANALYSE EN COURS...";
@@ -379,7 +378,7 @@
                 const res = await fetch(`${BACKEND_URL}/analyze?url=${encodeURIComponent(input)}`, { signal: controller.signal });
                 clearTimeout(timeoutId);
 
-                if (!res.ok) throw new Error();
+                if (!res.ok) throw new Error("Erreur de connexion au serveur backend");
                 const data = await res.json();
 
                 clearInterval(timer);
@@ -398,7 +397,7 @@
                 clearInterval(timer);
                 progressBar.style.width = '100%';
 
-                // Fallback Intelligent Multi-Plateforme
+                // Dynamic Fallback
                 const cleanName = input.replace('https://', '').split('/')[1] || input.replace('@', '');
                 document.getElementById('userName').innerHTML = '@' + cleanName.replace('@', '') + ' <span class="verified-check">✓</span>';
                 document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=00f2fe&color=000&bold=true`;
