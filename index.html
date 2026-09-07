@@ -100,6 +100,18 @@
             opacity: 0.9;
         }
 
+        /* Notification d'erreur */
+        .error-message {
+            display: none;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
         /* Carte Profil */
         .profile-card {
             background: var(--card-bg);
@@ -137,7 +149,6 @@
             gap: 4px;
         }
 
-        /* NOM DU PROFIL ET BADGE VERIFIE */
         .username-wrapper {
             display: flex;
             align-items: center;
@@ -150,7 +161,6 @@
             color: #ffffff;
         }
 
-        /* Style spécifique de la balise / badge */
         .verified-badge {
             display: inline-flex;
             align-items: center;
@@ -244,9 +254,6 @@
             font-size: 0.8rem;
             font-weight: 700;
             margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .diagnostic-text {
@@ -259,7 +266,6 @@
 <body>
 
 <div class="container">
-    <!-- Header -->
     <div class="header">
         <div class="logo">⚡ CYBERDOPE STUDIO <span>PRO v2.5</span></div>
     </div>
@@ -267,8 +273,10 @@
     <!-- Barre de recherche -->
     <div class="search-box">
         <input type="text" id="urlInput" value="https://www.youtube.com/@Dope__pain" placeholder="Entrez une URL YouTube/TikTok...">
-        <button onclick="runAnalysis()">LANCER L'ANALYSE PRO</button>
+        <button id="btnSearch" onclick="runAnalysis()">LANCER L'ANALYSE PRO</button>
     </div>
+
+    <div id="errorMessage" class="error-message"></div>
 
     <!-- Carte Profil -->
     <div class="profile-card">
@@ -279,17 +287,16 @@
             <div class="profile-info">
                 <div class="username-wrapper">
                     <span id="userName" class="username">@Dope__pain</span>
-                    <!-- LA BALISE VERIFIEE PAR DEFAUT VISIBLE -->
                     <span id="verifiedBadge" class="verified-badge" title="Compte Vérifié">✓</span>
                 </div>
-                <div class="subtitle">Créateur & Éditeur Digital • TikTok & YouTube AI Motion</div>
+                <div id="platformSubtitle" class="subtitle">Créateur Digital • Statistiques En Temps Réel</div>
             </div>
         </div>
 
         <div class="earnings-box">
             <div class="earnings-title">💰 VALEUR ESTIMÉE / POST</div>
-            <div id="earningsVal" class="earnings-amount">$216 - $566</div>
-            <div class="earnings-sub">Basé sur l'engagement actuel</div>
+            <div id="earningsVal" class="earnings-amount">--</div>
+            <div class="earnings-sub">Basé sur l'audience réelle</div>
         </div>
     </div>
 
@@ -297,73 +304,88 @@
     <div class="stats-grid">
         <div class="stat-card">
             <span class="stat-label">Abonnés Totaux</span>
-            <span id="totalSubs" class="stat-value">20,800</span>
+            <span id="totalSubs" class="stat-value">--</span>
         </div>
         <div class="stat-card">
-            <span class="stat-label">Abonnés Gagnés (30j)</span>
-            <span id="gainedSubs" class="stat-value green">+1,248</span>
+            <span class="stat-label">Abonnés Gagnés (Est.)</span>
+            <span id="gainedSubs" class="stat-value green">--</span>
         </div>
         <div class="stat-card">
-            <span class="stat-label">Abonnés Perdus (30j)</span>
-            <span id="lostSubs" class="stat-value red">-104</span>
+            <span class="stat-label">Abonnés Perdus (Est.)</span>
+            <span id="lostSubs" class="stat-value red">--</span>
         </div>
         <div class="stat-card">
-            <span class="stat-label">Vues de la Semaine</span>
-            <span id="weeklyViews" class="stat-value">47.8K</span>
+            <span class="stat-label">Vues Hebdomadaires</span>
+            <span id="weeklyViews" class="stat-value">--</span>
         </div>
         <div class="stat-card">
-            <span class="stat-label">Vues du Mois</span>
-            <span id="monthlyViews" class="stat-value">197.6K</span>
+            <span class="stat-label">Vues Mensuelles</span>
+            <span id="monthlyViews" class="stat-value">--</span>
         </div>
         <div class="stat-card">
             <span class="stat-label">Taux d'Engagement</span>
-            <span id="engagementRate" class="stat-value">8.5%</span>
+            <span id="engagementRate" class="stat-value">--</span>
         </div>
     </div>
 
-    <!-- Diagnostic -->
     <div class="diagnostic-card">
         <div class="diagnostic-title">🚨 DIAGNOSTIC RÉTENTION & PERFORMANCES</div>
-        <div class="diagnostic-text">
-            Analyse du Hook : 68% des spectateurs restent après les 2 premières secondes (+8% par rapport au mois dernier). Augmente le contraste sonore pour capter 15% d'audience supplémentaire.
+        <div class="diagnostic-text" id="diagnosticContent">
+            Entrez une URL pour analyser la rétention et les performances en temps réel.
         </div>
     </div>
 </div>
 
 <script>
-    // URL de ton serveur Express sur Koyeb/Render ou local
-    const API_BASE_URL = "http://localhost:3000"; 
+    // URL automatique : s'adapte selon si tu es en local ou sur ton serveur déployé (Koyeb/Render)
+    const API_BASE_URL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+        ? "http://localhost:3000"
+        : "https://TON-SERVEUR-BACKEND.onrender.com"; // Remplacer par ton URL de serveur Render/Koyeb si hébergé en ligne
 
     async function runAnalysis() {
         const inputUrl = document.getElementById('urlInput').value.trim();
+        const btn = document.getElementById('btnSearch');
+        const errDiv = document.getElementById('errorMessage');
+
         if (!inputUrl) return;
+
+        btn.disabled = true;
+        btn.textContent = "ANALYSE EN COURS...";
+        errDiv.style.display = "none";
 
         try {
             const res = await fetch(`${API_BASE_URL}/analyze?url=${encodeURIComponent(inputUrl)}`);
             const data = await res.json();
 
-            if (data && data.status === "success") {
-                // Mise à jour de l'avatar et du nom
-                document.getElementById('userAvatar').src = data.avatar;
-                document.getElementById('userName').textContent = `@${data.username}`;
-                
-                // GARANTIR QUE LA BALISE EST VISIBLE
-                const badge = document.getElementById('verifiedBadge');
-                if (badge) {
-                    badge.style.display = 'inline-flex';
-                }
-
-                // Statistiques
-                document.getElementById('totalSubs').textContent = Number(data.followers).toLocaleString();
-                document.getElementById('gainedSubs').textContent = data.stats.gainedSubscribers;
-                document.getElementById('lostSubs').textContent = data.stats.lostSubscribers;
-                document.getElementById('weeklyViews').textContent = data.stats.weeklyViews;
-                document.getElementById('monthlyViews').textContent = data.stats.monthlyViews;
-                document.getElementById('engagementRate').textContent = data.engagement;
-                document.getElementById('earningsVal').textContent = data.estimatedEarnings;
+            if (!res.ok || data.error) {
+                throw new Error(data.message || "Erreur de récupération des données.");
             }
+
+            // Mise à jour de l'interface avec les vraies données
+            document.getElementById('userAvatar').src = data.avatar;
+            document.getElementById('userName').textContent = `@${data.username}`;
+            document.getElementById('platformSubtitle').textContent = `Compte ${data.platform.toUpperCase()} • Statistiques réelles`;
+            document.getElementById('verifiedBadge').style.display = 'inline-flex';
+
+            document.getElementById('totalSubs').textContent = Number(data.followers).toLocaleString();
+            document.getElementById('gainedSubs').textContent = data.stats.gainedSubscribers;
+            document.getElementById('lostSubs').textContent = data.stats.lostSubscribers;
+            document.getElementById('weeklyViews').textContent = data.stats.weeklyViews;
+            document.getElementById('monthlyViews').textContent = data.stats.monthlyViews;
+            document.getElementById('engagementRate').textContent = data.engagement;
+            document.getElementById('earningsVal').textContent = data.estimatedEarnings;
+
+            document.getElementById('diagnosticContent').textContent = 
+                `Compte ${data.platform.toUpperCase()} actif avec ${Number(data.followers).toLocaleString()} abonnés. ` +
+                `Pour optimiser ton engagement (${data.engagement}), publie régulièrement aux heures de pointe.`;
+
         } catch (err) {
             console.error("Erreur d'analyse :", err);
+            errDiv.textContent = err.message;
+            errDiv.style.display = "block";
+        } finally {
+            btn.disabled = false;
+            btn.textContent = "LANCER L'ANALYSE PRO";
         }
     }
 </script>
